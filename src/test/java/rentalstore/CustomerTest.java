@@ -51,4 +51,20 @@ public class CustomerTest {
         m.setPriceCode(2);
         Assert.assertEquals(2,m.getPriceCode());
     }
+    @Test
+    public void should_return_current_statement_html_when_movie_price_code_2_and_dayRented_100(){
+        Movie m = new Movie("movie1",2);
+        customer.addRental(new Rental(m,100));
+        Assert.assertEquals("<H1>Rental Record for <EM>hugo</EM></H1>\n" +
+                "\tmovie1\t147.0<BR>\n" +
+                "<p>Amount owed is147.0<p>\n" +
+                "<P>You earned<EM>1</EM><P>",customer.htmlStatement());
+    }
+
+    @Test
+    public void should_return_current_statement_html_when_movie_price_code_3_and_dayRented_100(){
+        Movie m = new Movie("movie3",3);
+        customer.addRental(new Rental(m,100));
+        System.out.println(customer.htmlStatement());
+    }
 }

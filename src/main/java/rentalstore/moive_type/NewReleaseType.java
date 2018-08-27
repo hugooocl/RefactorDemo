@@ -1,4 +1,6 @@
-package rentalstore;
+package rentalstore.moive_type;
+
+import rentalstore.Rental;
 
 /**
  * @author:QIUHU
@@ -7,9 +9,16 @@ package rentalstore;
  * @modified By:
  */
 public class NewReleaseType extends MovieType {
-    double cal(Rental rental) {
+    public   double cal(Rental rental) {
         double thisAmount = 0;
         thisAmount += rental.getDayRented() * 3;
         return thisAmount;
+    }
+
+    public int calPoint(Rental rental) {
+        if(rental.getDayRented()>3){
+            return 2;
+        }
+        return 1;
     }
 }

@@ -1,5 +1,8 @@
 package rentalstore;
 
+import rentalstore.statement_type.HtmlStatement;
+import rentalstore.statement_type.Statement;
+
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -11,7 +14,7 @@ public class Customer {
         this.name = name;
     }
 
-    public void addRental(Rental arg){
+    public void addRental(Rental arg) {
         rentals.addElement(arg);
     }
 
@@ -19,44 +22,24 @@ public class Customer {
         return name;
     }
 
-    public String statement(){
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-        Enumeration rentals = this.rentals.elements();
-        String result = "Rental Record for " + getName() + "\n";
-        while(rentals.hasMoreElements()){
-            double thisAmount =0;
-            Rental each = (Rental) rentals.nextElement();
+    public String statement() {
+        return new Statement().returnResult(this);
 
-            thisAmount+=each.getMovie().getType().cal(each);
+    }
+    public String htmlStatement() {
+        return new HtmlStatement().returnResult(this);
 
-            //add frequent renter points
-            frequentRenterPoints ++;
-            //add bonus for a two day new release rental
-            if(isNewRelease(each) && each.getDayRented() > 1){
-                frequentRenterPoints ++;
-            }
-            //show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" + String.valueOf(thisAmount) + "\n";
-            totalAmount += thisAmount;
-        }
-        //add footer lines
-        result = printTotalAmount(totalAmount, result);
-        result = printEarnedPoint(frequentRenterPoints, result);
-        return result;
     }
 
-    private boolean isNewRelease(Rental each) {
-        return each.getMovie().getPriceCode() == Movie.NEW_RELEASE;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    private String printEarnedPoint(int frequentRenterPoints, String result) {
-        result += "You earned" + String.valueOf(frequentRenterPoints) + " frequent renter points";
-        return result;
+    public Vector getRentals() {
+        return rentals;
     }
 
-    private String printTotalAmount(double totalAmount, String result) {
-        result += "Amount owed is" + String.valueOf(totalAmount) + "\n";
-        return result;
+    public void setRentals(Vector rentals) {
+        this.rentals = rentals;
     }
 }
